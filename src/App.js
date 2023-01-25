@@ -10,12 +10,11 @@ import Favoritos from "./views/Favoritos";
 
 export default function App() {
 
-  const [foto, setfoto] = useState([]);
-  const endpoint = "/fotos.json";
+  const [fotos, setFotos] = useState([]);
+  const endpoint = '/natural-pic/fotos.json';
 
   const getFotos = async () => {
-    const url = endpoint;
-    const response = await fetch(url);
+    const response = await fetch(endpoint);
     let { photos } = await response.json();
     photos = photos.map((photo) => ({
       id: photo.id,
@@ -23,8 +22,7 @@ export default function App() {
       desc: photo.alt,
       favorito: false
     }));    
-    setfoto(photos);
-    console.log(photos)
+    setFotos(photos);
   }
 
   useEffect(() => {
@@ -33,11 +31,11 @@ export default function App() {
 
   return (
     <div className="App">
-      <Context.Provider value={{ foto, setfoto }}>
-        <BrowserRouter>
+      <Context.Provider value={{ fotos, setFotos }}>
+        <BrowserRouter basename="natural-pic">
           <Navbar />
           <Routes>
-            <Route path="natural-pic/" element={<Home />} />
+            <Route path="/" element={<Home />} />
             <Route path="/favoritos" element={<Favoritos />} />
           </Routes>
         </BrowserRouter>
